@@ -1,16 +1,29 @@
 package com.briancmills.wordle;
 
-import com.briancmills.wordle.solver.NaiveRandomGuessSolver;
+import com.briancmills.wordle.solver.*;
 import org.apache.commons.io.*;
 
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * A simple command line application that runs a Wordle Puzzle 
+ * and allows us to test implementations of our Solver interface 
+ * to try out different approaches to having software solve the puzzle. 
+ */
 public class WordleRunner {
     
     public static void main(String[] args) {
+        
+        if (args.length < 1) {
+            System.err.println("Please provide the path to the answers file:");
+            System.err.println("java -cp target/wordle-1.0-SNAPSHOT.jar com.briancmills.wordle.WordleRunner /Users/brianmills/IdeaProjects/wordle/src/main/resources/answers.txt");
+            System.exit(1);
+        }
+    
         System.out.println("Starting WordleRunner: " + args[0]);
+        
         String inputFileName = args[0];
         File file = FileUtils.getFile(inputFileName);
         
@@ -20,7 +33,7 @@ public class WordleRunner {
     
             int randomNum = ThreadLocalRandom.current().nextInt(0, wordList.size() + 1);
             String answer = wordList.get(randomNum);
-            NaiveRandomGuessSolver solver = new NaiveRandomGuessSolver();
+            Solver solver = new NaiveRandomGuessSolver();
             solver.initialize(wordList);
             List<PastWordGuessResult> pastGuessResults = new ArrayList<>();
             // the solver gets 6 guesses
