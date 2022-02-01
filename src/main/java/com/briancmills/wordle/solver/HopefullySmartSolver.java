@@ -86,7 +86,7 @@ public class HopefullySmartSolver implements Solver {
                 return firstWord;
             }
             else {
-                int randomNum = ThreadLocalRandom.current().nextInt(0, filteredWordList.size() + 1);
+                int randomNum = ThreadLocalRandom.current().nextInt(0, filteredWordList.size());
                 return filteredWordList.get(randomNum);
             }
     }
