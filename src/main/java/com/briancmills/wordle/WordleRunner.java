@@ -23,7 +23,7 @@ public class WordleRunner {
             System.err.println("java -cp target/wordle-1.0-SNAPSHOT.jar com.briancmills.wordle.WordleRunner /Users/brianmills/IdeaProjects/wordle/src/main/resources/answers.txt");
             System.exit(1);
         }
-    
+        
         System.out.println("Starting WordleRunner: " + args[0]);
         System.out.println("Will run " + NUMBER_OF_GAMES + " games.");
         
@@ -32,7 +32,7 @@ public class WordleRunner {
 
         List<String> wordList = getWordList(inputFileName);
         
-        Solver solver = new NaiveRandomGuessSolver();
+        Solver solver = new TrigramOptimizedFilteringSolver();
         // give the solver an unmodifiable copy of the list
         solver.initialize(Collections.unmodifiableList(wordList));
         
@@ -78,6 +78,10 @@ public class WordleRunner {
      * @return A true value indicates the solver guessed the word correctly. 
      */
     private static boolean runGame(String answer, Solver solver, boolean verbose) {
+        
+        if (verbose) {
+            System.out.println("starting game");
+        }
         boolean result = false;
         
         List<PastWordGuessResult> pastGuessResults = new ArrayList<>();
