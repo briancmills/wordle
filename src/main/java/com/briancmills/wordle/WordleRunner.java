@@ -1,6 +1,8 @@
 package com.briancmills.wordle;
 
+import com.briancmills.wordle.solver.HopefullySmartSolver;
 import com.briancmills.wordle.solver.NaiveRandomGuessSolver;
+import com.briancmills.wordle.solver.testsolver;
 import org.apache.commons.io.*;
 
 import java.io.*;
@@ -20,7 +22,9 @@ public class WordleRunner {
     
             int randomNum = ThreadLocalRandom.current().nextInt(0, wordList.size() + 1);
             String answer = wordList.get(randomNum);
-            NaiveRandomGuessSolver solver = new NaiveRandomGuessSolver();
+            // NaiveRandomGuessSolver solver = new NaiveRandomGuessSolver();
+            // testsolver solver = new testsolver();
+            HopefullySmartSolver solver = new HopefullySmartSolver();
             solver.initialize(wordList);
             List<PastWordGuessResult> pastGuessResults = new ArrayList<>();
             // the solver gets 6 guesses
