@@ -19,7 +19,7 @@ public class NaiveRandomGuessSolver implements Solver {
     
     @Override
     public String guess(List<PastWordGuessResult> pastGuessResults) {
-        int randomNum = ThreadLocalRandom.current().nextInt(0, wordList.size() + 1);
+        int randomNum = ThreadLocalRandom.current().nextInt(0, wordList.size());
         return wordList.get(randomNum);
     }
 }

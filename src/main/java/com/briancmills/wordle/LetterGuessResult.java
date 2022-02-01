@@ -1,7 +1,7 @@
 package com.briancmills.wordle;
 
 public enum LetterGuessResult {
-    CORRECT_POSITION,
-    INCORRECT_POSITION,
-    LETTER_NOT_PRESENT
+    CORRECT_POSITION, // green
+    INCORRECT_POSITION, // yellow
+    LETTER_NOT_PRESENT // gray
 }
