@@ -32,7 +32,7 @@ public class WordleRunner {
 
         List<String> wordList = getWordList(inputFileName);
         
-        Solver solver = new TrigramOptimizedFilteringSolver();
+        Solver solver = new HopefullySmartSolver();
         // give the solver an unmodifiable copy of the list
         solver.initialize(Collections.unmodifiableList(wordList));
         
