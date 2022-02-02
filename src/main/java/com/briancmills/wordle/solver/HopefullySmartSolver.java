@@ -4,10 +4,7 @@ import com.briancmills.wordle.LetterGuessResult;
 import com.briancmills.wordle.PastLetterGuessResult;
 import com.briancmills.wordle.PastWordGuessResult;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -22,18 +19,24 @@ public class HopefullySmartSolver implements Solver {
 
     @Override
     public String guess(List<PastWordGuessResult> pastGuessResults) {
+
       List<String> foundLetterCorrectPosition = new ArrayList<>();
-      List exactPosition = new ArrayList<>();
       List<String> foundLetterIncorrectPosition = new ArrayList<>();
+
       Set<String> wrongLetter = new HashSet<>();
+
+      Map<Integer, Character> incorrectPositionMap = new HashMap<>();
+      Map<Integer, Character> correctPositionMap = new HashMap<>();
+
       for (PastWordGuessResult pastResult: pastGuessResults) {
           for (PastLetterGuessResult pastLetterResult: pastResult.getPastLetterResults()) {
               if (pastLetterResult.getResult() == LetterGuessResult.CORRECT_POSITION) {
                   foundLetterCorrectPosition.add("" + pastLetterResult.getLetter());
-                  exactPosition.add(pastLetterResult.getPosition());
+                  correctPositionMap.put(pastLetterResult.getPosition(), pastLetterResult.getLetter());
               }
               if (pastLetterResult.getResult() == LetterGuessResult.INCORRECT_POSITION) {
                   foundLetterIncorrectPosition.add("" + pastLetterResult.getLetter());
+                  incorrectPositionMap.put(pastLetterResult.getPosition(), pastLetterResult.getLetter());
               }
               if (pastLetterResult.getResult() == LetterGuessResult.LETTER_NOT_PRESENT) {
                   wrongLetter.add("" + pastLetterResult.getLetter());
@@ -43,29 +46,24 @@ public class HopefullySmartSolver implements Solver {
       List<String> filteredWordList = wordList.stream()
               .filter(
                       word -> {
-                          // what I need to do is associate the FLCP with the EP, they
-                          // both are arraylists, I need to learn how to
-                          // set the position of the letter so that with this filter
-                          // words with letters in the position would be 0-6
-                          // I'm not sure if I need an array for each, or if I keep it at one and
-                          // just split it after each letter for the number
-                          int MatchCount = 0;
+                          // I am going to use a map
+                          int matchCount = 0;
                           for (String letter: foundLetterCorrectPosition) {
                               if (word.contains(letter)) {
-                                  MatchCount++;
+                                  matchCount++;
                               }
                           }
-                          return MatchCount == foundLetterCorrectPosition.size();
+                          return matchCount == foundLetterCorrectPosition.size();
                       }
               ).filter(
                       word -> {
-                          int MatchCount = 0;
+                          int matchCount = 0;
                           for (String letter: foundLetterIncorrectPosition) {
                               if (word.contains(letter)){
-                                  MatchCount++;
+                                  matchCount++;
                               }
                           }
-                          return MatchCount == foundLetterIncorrectPosition.size();
+                          return matchCount == foundLetterIncorrectPosition.size();
                       }
 
               ).filter(
@@ -74,14 +72,41 @@ public class HopefullySmartSolver implements Solver {
                           for (String letter : wrongLetter) {
                               if (word.contains(letter)) {
                                    match = false;
+                                   break;
                               }
                           }
                           return match;
                       }
 
-              ).collect(Collectors.toList());
+              ).filter(
+                      word -> {
 
-            if (wrongLetter.isEmpty()) {
+                          boolean match = true;
+
+                          for (Integer position : correctPositionMap.keySet()) {
+                             if (word.charAt(position) != correctPositionMap.get(position)) {
+                                 match = false;
+                             }
+                          }
+                          return match;
+                      }
+
+              ).filter(
+                word -> {
+
+                    boolean match = true;
+
+                    for (Integer position : incorrectPositionMap.keySet()) {
+                        if (word.charAt(position) == incorrectPositionMap.get(position)) {
+                            match = false;
+                        }
+                    }
+                    return match;
+                }
+
+        ).collect(Collectors.toList());
+
+            if (pastGuessResults.isEmpty()) {
                 String firstWord = "tares";
                 return firstWord;
             }
