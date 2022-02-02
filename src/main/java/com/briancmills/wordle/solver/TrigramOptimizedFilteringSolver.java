@@ -94,7 +94,7 @@ public class TrigramOptimizedFilteringSolver implements Solver {
                                 for (String letter: wrongLetters) {
                                     if (word.contains(letter)) {
                                         match = false;
-                                        return;
+                                        break;
                                     }
                                 }
                                 return match;
