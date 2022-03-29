@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class WordleRunner {
     
-    private static final int NUMBER_OF_GAMES = 1;
+    private static final int NUMBER_OF_GAMES = 10000;
     
     public static void main(String[] args) {
         
@@ -31,8 +31,10 @@ public class WordleRunner {
         File file = FileUtils.getFile(inputFileName);
 
         List<String> wordList = getWordList(inputFileName);
-        
-        Solver solver = new HopefullySmartSolver();
+
+         Solver solver = new BasicFilteringSolver();
+        // Solver solver = new TrigramAnalysisSolver();
+        // Solver solver = new MostCommonWordAnalysisSolver();
         // give the solver an unmodifiable copy of the list
         solver.initialize(Collections.unmodifiableList(wordList));
         
@@ -41,7 +43,7 @@ public class WordleRunner {
         for (int i = 0; i < NUMBER_OF_GAMES; i++) {
             int randomNum = ThreadLocalRandom.current().nextInt(0, wordList.size());
             String answer = wordList.get(randomNum);
-            if (runGame(answer, solver, true)) {
+            if (runGame(answer, solver, false)) {
                 victories++;
             }
             // remove the answer from the word list so we don't run the same answer twice
