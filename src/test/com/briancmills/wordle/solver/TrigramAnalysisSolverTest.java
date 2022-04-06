@@ -15,6 +15,11 @@ public class TrigramAnalysisSolverTest {
     }
 
     @Test
+    void testWordListTrigramAnalyzer() {
+        solver.wordListTrigramAnalyzer(null);
+    }
+
+    @Test
     void testCalculateTrigramFrequency() {
         List<String> trigramTestList = new ArrayList<>();
         trigramTestList.add("map");
@@ -32,6 +37,11 @@ public class TrigramAnalysisSolverTest {
     }
 
     @Test
+    void testCalculateTrigramFrequencyNull() {
+        solver.calculateTrigramFrequency(null);
+    }
+
+    @Test
     void testFrequencyValue() {
         List<String> trigramTestList = new ArrayList<>();
         trigramTestList.add("mar");
@@ -44,23 +54,41 @@ public class TrigramAnalysisSolverTest {
     }
 
     @Test
-    void testComparator() {
-        List<String> trigramTestList = new ArrayList<>();
-        trigramTestList.add("map");
-        trigramTestList.add("map");
-        trigramTestList.add("map");
-        trigramTestList.add("map");
-        trigramTestList.add("mat");
-        trigramTestList.add("mar");
-        trigramTestList.add("ple");
-        trigramTestList.add("ple");
-        solver.calculateTrigramFrequency(trigramTestList);
-        List<String> testList = new ArrayList<>();
-        testList.add("maple");
-        testList.add("testy");
-        testList.add("testy");
-        testList.add("testy");
-
+    void testFrequencyValueNull() {
+        solver.getTrigramFrequencyValue(null);
     }
 
+    @Test
+    void testTrigramLeft(){
+        String word = "match";
+        String result = solver.createTrigramLeft(word);
+        assert(Objects.equals(result, "mat"));
+        System.out.println(result);
+    }
+
+    @Test
+    void testTrigramCenter() {
+        String word = "match";
+        String result = solver.createTrigramCenter(word);
+        assert(Objects.equals(result, "atc"));
+        System.out.println(result);
+    }
+
+    @Test
+    void testTrigramRight() {
+        String word = "match";
+        String result = solver.createTrigramRight(word);
+        assert(Objects.equals(result, "tch"));
+        System.out.println(result);
+    }
+    @Test
+    void testTrigramNull() {
+        String word = null;
+        String result = solver.createTrigramRight(word);
+        String result1 = solver.createTrigramCenter(word);
+        String result2 = solver.createTrigramLeft(word);
+        assert(result == null);
+        assert(result1 == null);
+        assert(result2 == null);
+    }
 }

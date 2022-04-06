@@ -21,24 +21,30 @@ public class TrigramAnalysisSolver extends BasicFilteringSolver {
     }
 
     protected String createTrigramRight(String word) {
+        if (word == null) {
+            return null;
+        }
         return word.substring(2,5);
     }
 
     protected String createTrigramCenter(String word) {
+        if (word == null) {
+            return null;
+        }
         return word.substring(1,4);
     }
 
     protected String createTrigramLeft(String word) {
-        // cares
-        // index 0 = c
-        // index 1 = a
-        // index 2 = r
-        // index 3 = e
-        // index 4 = s
+        if (word == null) {
+            return null;
+        }
         return word.substring(0,3);
     }
 
     public List<String> wordListTrigramAnalyzer(List<String> wordList) {
+        if (wordList == null) {
+            return null;
+        }
         List<String> trigrams = new ArrayList<>();
         for (String word : wordList) {
             trigrams.add(createTrigramLeft(word));
@@ -49,6 +55,10 @@ public class TrigramAnalysisSolver extends BasicFilteringSolver {
     }
 
     protected Map<String, Integer> calculateTrigramFrequency(List<String> trigrams) {
+
+        if (trigrams == null) {
+            return null;
+        }
 
         Map<String, Integer> trigramFrequencyMap = new HashMap<>();
         Set<String> uniqueTrigrams = new HashSet<>(trigrams);
@@ -62,6 +72,10 @@ public class TrigramAnalysisSolver extends BasicFilteringSolver {
     protected int getTrigramFrequencyValue(List<String> trigrams) {
 
         int value = 0;
+
+        if (trigrams == null) {
+            return value;
+        }
 
         for (String tri: trigrams) {
           Integer frequencyValue = trigramFrequencyMap.get(tri);

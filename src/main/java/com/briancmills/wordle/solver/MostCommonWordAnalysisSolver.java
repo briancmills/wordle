@@ -21,7 +21,7 @@ public class MostCommonWordAnalysisSolver extends BasicFilteringSolver {
     public void initialize(List<String> wordList) {
         File file = new File("/Users/josh/IdeaProjects/wordle/src/main/resources/english_text.txt");
         List<String> textFile = getTextFile(file);
-        textDocAnalyzer(textFile);
+        textFileAnalyzer(textFile);
         calculateFiveLetterWordFrequency(allFiveLetterWordList);
         super.initialize(wordList);
     }
@@ -42,23 +42,33 @@ public class MostCommonWordAnalysisSolver extends BasicFilteringSolver {
 
    protected boolean isAlphabetic(String word) {
 
+        if (word == null) {
+            return false;
+        }
+
         Pattern pattern = Pattern.compile("^[a-zA-Z]*$",Pattern.UNICODE_CHARACTER_CLASS);
         Matcher matcher = pattern.matcher(word);
 
         return matcher.find();
     }
 
-    protected List<String> wordChecker(String word) {
+    protected void wordChecker(String word) {
+
+        if (word == null) {
+            return;
+        }
 
         if (isAlphabetic(word)) {
             if (word.length() == 5) {
                 allFiveLetterWordList.add(word);
             }
         }
-        return allFiveLetterWordList;
     }
 
-    protected void textDocAnalyzer(List<String> textFile) {
+    protected void textFileAnalyzer(List<String> textFile) {
+        if (textFile == null) {
+            return;
+        }
         for (String line : textFile) {
             String[] arrayOfLine = line.split(" ", 0);
             for (String word : arrayOfLine) {
@@ -68,7 +78,6 @@ public class MostCommonWordAnalysisSolver extends BasicFilteringSolver {
     }
 
     protected void calculateFiveLetterWordFrequency(List<String> words) {
-
         Set<String> frequencyOfWords = new HashSet<>(words);
         for (String word : frequencyOfWords) {
             wordFrequencyMap.put(word, Collections.frequency(words, word));
