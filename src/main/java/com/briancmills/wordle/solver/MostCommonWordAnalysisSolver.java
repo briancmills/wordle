@@ -38,9 +38,14 @@ public class MostCommonWordAnalysisSolver extends BasicFilteringSolver {
         }
         return Collections.emptyList();
     }
-
-
-   protected boolean isAlphabetic(String word) {
+    
+    
+    /**
+     * Checks if the word is alphabetic or not.  Handles null values by returning false. 
+     * @param word The word to analyze.
+     * @return True if the value is alphabetic, false otherwise. 
+     */
+    protected boolean isAlphabetic(String word) {
 
         if (word == null) {
             return false;

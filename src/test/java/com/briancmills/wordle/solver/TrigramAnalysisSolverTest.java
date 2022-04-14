@@ -91,4 +91,11 @@ public class TrigramAnalysisSolverTest {
         assert(result1 == null);
         assert(result2 == null);
     }
+    
+    
+    @Test
+    void testGuess_nullHandling() {
+        String result = solver.guess(null);
+        assert(result == null);
+    }
 }

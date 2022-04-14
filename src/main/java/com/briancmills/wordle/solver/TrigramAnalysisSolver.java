@@ -89,6 +89,10 @@ public class TrigramAnalysisSolver extends BasicFilteringSolver {
     @Override
     public String guess(List<PastWordGuessResult> pastGuessResults) {
 
+        if (pastGuessResults == null) {
+            return null;
+        }
+        
         Comparator<String> trigramComparator = (String left, String right) -> {
             int leftScore = 0;
             int rightScore = 0;

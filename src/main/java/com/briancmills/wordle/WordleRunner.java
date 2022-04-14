@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class WordleRunner {
     
-    private static final int NUMBER_OF_GAMES = 10000;
+    private static final int NUMBER_OF_GAMES = 1000;
     
     public static void main(String[] args) {
         
@@ -32,14 +32,15 @@ public class WordleRunner {
 
         List<String> wordList = getWordList(inputFileName);
 
-         Solver solver = new BasicFilteringSolver();
-        // Solver solver = new TrigramAnalysisSolver();
+         //Solver solver = new BasicFilteringSolver();
+        Solver solver = new TrigramAnalysisSolver();
         // Solver solver = new MostCommonWordAnalysisSolver();
         // give the solver an unmodifiable copy of the list
         solver.initialize(Collections.unmodifiableList(wordList));
         
         // run the game 1000 times and calculate how often the solver is correct
         int victories = 0;
+        long startTime = System.currentTimeMillis();
         for (int i = 0; i < NUMBER_OF_GAMES; i++) {
             int randomNum = ThreadLocalRandom.current().nextInt(0, wordList.size());
             String answer = wordList.get(randomNum);
@@ -49,6 +50,11 @@ public class WordleRunner {
             // remove the answer from the word list so we don't run the same answer twice
             wordList.remove(answer);
         }
+    
+        long endTime = System.currentTimeMillis();
+    
+        System.out.println("it took " + ((endTime - startTime) / 1000) + " seconds to run");
+        
         System.out.println("solver produced " + victories + " victories");
         
         System.out.println(String.format("%.2f",((victories / Double.valueOf(NUMBER_OF_GAMES)) * 100)) + "% of games were victories");
