@@ -32,8 +32,10 @@ public class WordleRunner {
 
         List<String> wordList = getWordList(inputFileName);
 
-         //Solver solver = new BasicFilteringSolver();
-        Solver solver = new TrigramAnalysisSolver();
+        // Solver solver = new BasicFilteringSolver();
+        // Solver solver = new BigramAnalysisSolver();
+         Solver solver = new TrigramAnalysisSolver();
+        // Solver solver = new TrigramOptimizedFilteringSolver();
         // Solver solver = new MostCommonWordAnalysisSolver();
         // give the solver an unmodifiable copy of the list
         solver.initialize(Collections.unmodifiableList(wordList));

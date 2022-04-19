@@ -30,7 +30,10 @@ public class BasicFilteringSolver implements Solver {
         this.wordList = wordList;
     }
 
-    // TODO: write a unit test to prove that when the method is given no past results it resets the maps
+    /**
+     * This method processes pastGuessResults and organizes the letters into useful categories
+     * @param pastGuessResults the previously guessed words
+     */
 
     protected void analyzePastGuesses(List<PastWordGuessResult> pastGuessResults) {
         if (pastGuessResults == null || pastGuessResults.isEmpty()) {
@@ -61,6 +64,13 @@ public class BasicFilteringSolver implements Solver {
         }
     }
 
+    /**
+     * Contains a Predicate that uses the data from analyzePastGuesses to filter out words that contain
+     * letters are not in the answer
+     * @param wordList The entire word-bank of five-letter words
+     * @return A filtered list
+     */
+
      public Stream<String> wrongLetterFilter(Stream<String> wordList) {
         Predicate<? super String> wrongLetterFilter = word -> {
             boolean match = true;
@@ -78,6 +88,13 @@ public class BasicFilteringSolver implements Solver {
         return wordList.filter(wrongLetterFilter);
     }
 
+    /**
+     * Contains a Predicate that uses the data from analyzePastGuesses to filter out words based on the letters
+     * that are in the correct position
+     * @param wordList The entire word-bank of five-letter words
+     * @return A filtered list
+     */
+
     public Stream<String> correctLetterPositionFilter(Stream<String> wordList) {
         Predicate<? super String> correctLetterFilter = word -> {
             int matchCount = 0;
@@ -93,6 +110,13 @@ public class BasicFilteringSolver implements Solver {
         }
         return wordList.filter(correctLetterFilter);
     }
+
+    /**
+     * Contains a Predicate that uses the data from analyzePastGuesses to filter out words based on the letters
+     * that are in the correct position
+     * @param wordList The entire word-bank of five-letter words
+     * @return A filtered list
+     */
 
     public Stream<String> incorrectLetterPositionFilter(Stream<String> wordList) {
         Predicate<? super String> incorrectLetterFilter = word -> {
@@ -142,8 +166,15 @@ public class BasicFilteringSolver implements Solver {
         return wordList.filter(incorrectPositionFilter);
     }
 
-    protected List<String> filterWordList(List<String> wordList) {
+    /**
+     * This is a consolidation of all the individual filtering methods, so that they all can be invoked
+     * with the calling of a single method
+     * @param wordList The entire word-bank of five-letter words
+     * @return A list that has been passed through all the individual filter methods
+     */
 
+
+    protected List<String> filterWordList(List<String> wordList) {
         Stream<String> wrongLetterFilteredList = wrongLetterFilter(wordList.stream());
         Stream<String> correctLetterPositionFilteredList = correctLetterPositionFilter(wrongLetterFilteredList);
         Stream<String> incorrectLetterPositionFilteredList = incorrectLetterPositionFilter(correctLetterPositionFilteredList);
