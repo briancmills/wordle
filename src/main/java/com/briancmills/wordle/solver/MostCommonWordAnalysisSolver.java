@@ -26,7 +26,7 @@ public class MostCommonWordAnalysisSolver extends BasicFilteringSolver {
         super.initialize(wordList);
     }
 
-    private static List<String> getTextFile(File inputFileName) {
+    protected static List<String> getTextFile(File inputFileName) {
 
         File file = FileUtils.getFile(inputFileName);
 
@@ -106,6 +106,10 @@ public class MostCommonWordAnalysisSolver extends BasicFilteringSolver {
 
     @Override
     public String guess(List<PastWordGuessResult> pastGuessResults) {
+
+        if (pastGuessResults == null) {
+            return null;
+        }
 
         Comparator<String> fiveLetterWordComparator = (String left, String right) -> {
 

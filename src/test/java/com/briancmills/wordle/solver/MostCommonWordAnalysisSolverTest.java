@@ -4,9 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MostCommonWordAnalysisSolverTest {
 
@@ -40,11 +38,21 @@ public class MostCommonWordAnalysisSolverTest {
     }
 
     @Test
+    void testNullInitialize() {
+        solver.initialize(null);
+    }
+
+    @Test
     void testWordChecker() {
         String word = "seven";
         solver.wordChecker(word);
         System.out.println(solver.allFiveLetterWordList);
         assert(!solver.allFiveLetterWordList.isEmpty());
+    }
+
+    @Test
+    void testNullGuess() {
+        solver.guess(null);
     }
 
     @Test

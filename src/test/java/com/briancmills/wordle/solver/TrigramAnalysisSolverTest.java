@@ -37,6 +37,14 @@ public class TrigramAnalysisSolverTest {
     }
 
     @Test
+    void testCalculateTrigramFrequencyRepeatedLetters() {
+        List<String> trigramTestList = new ArrayList<>();
+        trigramTestList.add("ooo");
+        Map<String,Integer> result = solver.calculateTrigramFrequency(trigramTestList);
+        assert(result.get("ooo") == null);
+    }
+
+    @Test
     void testCalculateTrigramFrequencyNull() {
         solver.calculateTrigramFrequency(null);
     }
